@@ -1,0 +1,15 @@
+<main class="services-container">
+    <h2>Detalhe do Produto</h2>
+    <div class="services-card-container">
+        <div class="services-card">
+            <p>{{salesDetails.img}} {{salesDetails.title}} - {{salesDetails.description}} - {{salesDetails.amount}} </p>
+
+            <button class="btn btn-primary btn-rounded" [disabled]="isAddProduct" (click)="add()">ADICIONAR
+                AO
+                CARRINHO</button>
+        </div>
+
+    </div>
+    <button class="btn btn-primary btn-rounded mr-1" [routerLink]="['/', ]">Ver oferta</button>
+    <button class="btn btn-primary btn-rounded" [routerLink]="['/buy-cart']">Ver carrinho</button>
+</main>
