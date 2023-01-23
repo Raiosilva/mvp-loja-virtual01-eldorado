@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SalesService } from '../sales.service';
 import { BuyCartComponent } from './buy-cart.component';
 
 describe('BuyCartComponent', () => {
@@ -8,7 +9,8 @@ describe('BuyCartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BuyCartComponent ]
+      declarations: [ BuyCartComponent ],
+      providers: [SalesService]
     })
     .compileComponents();
 

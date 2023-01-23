@@ -2,7 +2,9 @@
     <h2>Detalhe do Produto</h2>
     <div class="services-card-container">
         <div class="services-card">
-            <p>{{salesDetails.img}} {{salesDetails.title}} - {{salesDetails.description}} - {{salesDetails.amount}} </p>
+            <img [src]="product?.thumbnail" style="width: 22rem; height: 22rem;">
+            <h1>{{product?.description}}</h1>
+            <p class="prince">{{product?.price | currency:'BRL'}}</p>
 
             <button class="btn btn-primary btn-rounded" [disabled]="isAddProduct" (click)="add()">ADICIONAR
                 AO

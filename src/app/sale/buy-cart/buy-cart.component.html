@@ -1,24 +1,40 @@
-<div *ngIf="items && items.length; else emptyCart">
-    <div *ngFor="let d of items" style="background: #FAFAFA; padding: 20px; border-bottom: solid 1px #F0F0F0">
-        Produto: {{ d?.id }} - {{d?.title }} - {{d?.description}} - {{d.amount | currency: 'BRL':true}} -
-        <button class="btn btn-outline-success" (click)="removeProduct(d)">-</button>
-        {{d.qtd}}
-        <button class="btn btn-outline-success" (click)="addProduct(d)">+</button>
-        <h3>Subtotal: {{d.amount * d.qtd | currency: 'BRL':true}}</h3>
-        <br>
+<div class="container" style="margin: 1rem 0rem 1rem 1rem;  display:flex;
+justify-content:space-evenly;">
+    <div *ngIf="items && items.length; else emptyCart" style="">
+        <div *ngFor="let d of items"
+            style="background: #FAFAFA; padding: 20px; border-bottom: solid 1px #F0F0F0; display: flex; align-items: center; width: 70%;">
+            <img [src]="d?.thumbnail" style="width: 6rem; height: 6rem;"> {{d?.description}} - {{d.price |
+            currency: 'BRL':true}} -
+            <button class="btn color-none" (click)="removeProduct(d)">-</button>
+            {{d.qtd}}
+            <button class="btn color-none" (click)="addProduct(d)">+</button>
+            <!-- <h3>Subtotal: {{d.price * d.qtd | currency: 'BRL'}}</h3> -->
+            <br>
+        </div>
     </div>
+    <div class="checkout" style="width: 30%;
+        margin: 1%;
+        padding: 2rem;
+        border: 1px solid #ccc;
+        transition: 0.3s;">
+        <div class="form-group col d-flex justify-content-end" style="display: flex;">
+            <h4 class="mr-1"> Valor total do carrinho: <span [ngClass]="{ cupom: totalDesc }">
+                    {{service.getCartBuyTotal() |
+                    currency: 'BRL'}}</span></h4>
+            <h4 *ngIf="totalDesc">{{(service.getCartBuyTotal() - totalDesc) | currency: 'BRL'}}</h4>
+        </div>
 
-    <div class="form-group col d-flex justify-content-end">
-        <h4>Valor total do carrinho: {{service.getCartBuyTotal() | currency: 'BRL':true}}</h4>
+        <label for="" class="mr-1">Tem com de desconto?</label>
+        <input class="form-control input mr-1" [(ngModel)]="cupomDesc" #inputValue type="search" id="site-search"
+            name="q" placeholder="Código de cupom" style="width: 37%; height: 20%;">
+        <button class="btn" (click)="cupom();">APLICAR</button>
+        <button class="btn btn-primary btn-rounded mr-1" disabled (click)="closeOrders()">Finalizar Compras</button>
+        <button class="btn btn-primary btn-rounded" [routerLink]="['/', ]">Ver oferta</button>
     </div>
+    <ng-template #emptyCart>
+        <div class="form-row d-flex justify-content-center"
+            style="background: #FAFAFA; padding: 20px; border-bottom: solid 1px #F0F0F0;     height: 25%;">
+            Seu carrinho está vazio!
+        </div>
+    </ng-template>
 </div>
-
-<ng-template #emptyCart>
-    <div class="form-row d-flex justify-content-center"
-        style="background: #FAFAFA; padding: 20px; border-bottom: solid 1px #F0F0F0">
-        Seu carrinho está vazio!
-    </div>
-</ng-template>
-
-<button class="btn btn-primary btn-rounded mr-1" [routerLink]="['/', ]">Ver oferta</button>
-<button class="btn btn-primary btn-rounded" disabled (click)="closeOrders()">Finalizar Compras</button>

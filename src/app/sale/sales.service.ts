@@ -1,13 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export class ItemCart {
   constructor(
     public id: number,
-    public img: object,
+    public thumbnail: object,
     public title: string,
     public description: string,
-    public amount: number,
+    public price: number,
+    public category: string,
     public qtd: number
   ){}
 };
@@ -25,25 +27,26 @@ export class SalesService {
     return this.itens
   }
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.buyCartTotal$ = this.buyCart.asObservable();
   }
 
-  updateBuyCartState(value: any) {
-		this.buyCart.next(value);
-	}
+  public getProducts(): Observable<any[]> {
+    return this.http.get<any[]>('https://dummyjson.com/products?limit=10&skip=10');
+  }
 
-  getBuyCartState() {
-		return this.buyCart.asObservable();
-	}
+  public getProductsById(id: number): Observable<any> {
+    return this.http.get<any>(`https://dummyjson.com/products/${id}`);
+  }
 
   includeProduct(product: any) {
     let newProduct: ItemCart = new ItemCart(
       product.id,
-      product.img,
+      product.thumbnail,
       product.title,
       product.description,
-      product.amount,
+      product.price,
+      product.category,
       1
     )
 
@@ -58,7 +61,7 @@ export class SalesService {
   public getCartBuyTotal() {
     let total = 0;
     this.itens.map((item: ItemCart) => {
-      total = total + (item.amount * item.qtd);
+      total = total + (item.price * item.qtd);
     });
     return total;
   }

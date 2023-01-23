@@ -10,16 +10,11 @@ import { SalesService } from '../sales.service';
 })
 export class SalesDetailsComponent implements OnInit {
 
-  products = [
-    { id: 'ABC-125', img: '', title: 'Notebook', description: 'I5 Dell', amount: '2500' },
-    { id: 'CDE-125', img: '', title: 'Smartphone', description: 'S3', amount: '5000' },
-    { id: 'EFG-125', img: '', title: 'Geladeira', description: '220L Fros Free', amount: '3000' },
-    { id: 'GIJ-125', img: '', title: 'Mesa', description: 'Madeira madeira', amount: '200' }
-  ];
-
   salesDetails: any;
   productsOnCart: any[] = [];
   isAddProduct = false;
+
+  public product: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,14 +24,17 @@ export class SalesDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      this.salesDetails = this.products.find(p => p.id === params['id'])
+      let idParams = params['id'];
+      this.service.getProductsById(Number(idParams))
+        .subscribe((res: any) => {
+          this.product = res;
+        });
     })
   }
 
   add() {
     this.isAddProduct = true;
-    this.service.includeProduct(this.salesDetails)
-    this.service.updateBuyCartState(this.productsOnCart);
+    this.service.includeProduct(this.product)
     this.openSnackBar();
   }
 

@@ -1,12 +1,12 @@
 <main class="services-container">
     <h2>Nossas Ofertas</h2>
     <div class="services-card-container">
-        <div *ngFor="let product of products$ | async" class="services-card">
-            <h3>{{product.img}}</h3>
-            <p>{{product.description}}</p>
-            <p>{{product.title}}</p>
-            <p>{{product.amount}}</p>
-            <button class="btn btn-primary btn-rounded" [routerLink]="['/sales', product.id]">Ver oferta</button>
+        <div *ngFor="let product of products" class="services-card">
+            <img [src]="product?.thumbnail" style="width: 15rem; height: 15rem;">
+            <p>{{product?.title}}</p>
+            <p>{{product?.description}}</p>
+            <p class="prince">{{product?.price | currency:'BRL'}}</p>
+            <button class="btn btn-primary btn-rounded" [routerLink]="['/sales', product?.id]">Ver oferta</button>
         </div>
     </div>
     <button class="btn btn-primary btn-rounded" [routerLink]="['/buy-cart']">Ver carrinho</button>

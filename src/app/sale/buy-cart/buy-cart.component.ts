@@ -8,6 +8,8 @@ import { ItemCart, SalesService } from '../sales.service';
 })
 export class BuyCartComponent implements OnInit {
   public items: ItemCart[] = [];
+  public cupomDesc = '';
+  public totalDesc!: number;
 
   constructor(public service: SalesService) {}
 
@@ -25,5 +27,10 @@ export class BuyCartComponent implements OnInit {
 
   closeOrders() {
     
+  }
+
+  cupom() {
+    if (this.cupomDesc === 'DESCONTO10')
+      this.totalDesc = (10 / 100) * this.service.getCartBuyTotal();    
   }
 }
